@@ -3,9 +3,11 @@
 모덜리스 다이어로그
 ---
 1. 먼저 콘솔앱으로 프로젝트를 생성해 기본 다이어로그 틀을 만들어준다.
+ 
    ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/0d51fc2c-23e0-4ed1-a200-7e229fc0ca58)
 
 2. ListBox에 m_List 이름으로 변수추가를 해준다.
+
    ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/8a2cb74d-019c-49c5-9f8e-88c063beb5b5)
 
 3. 리소스뷰에서 Modeless다이어로그를 삽입해준다.
@@ -13,27 +15,32 @@
 4. 생성한 Modeless다이어로그에 삽입했던 이름 그대로 클래스 추가를 해준다. 
 
 5. My9에 Modeless헤더파일을 불러오고, Modeless클래스를 만들어주고 추가 기능들을 넣어준다.
+ 
    ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/8c105c28-522b-444d-9641-646de3bda485)
 
 6. Modeless 다이어로그 틀을 다음과 같이 만들어준다.
+ 
    ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/fbb53a81-58f4-4cf2-9e72-a74af1bcdefd)
 
 7. Edit Control에 변수추가를 다음과 같이 해준다. 컨트롤 -> 값, 이름은 m_Str
+
    ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/c0084879-9e0b-47eb-9483-e351fb5e7cfb)
 
 8. Add버튼 함수에 입력값이 추가되도록 다음 코드를 추가해준다.
+
    ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/adfe8614-9098-46bd-8e15-9a992ab951b8)
 
 9. Modeless에서 속성에 들어가 윈도우 클로즈 메시지를 추가해준다.
+
     ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/ab057245-e26e-46d0-897e-44b938992a25)
 
 10. Modeless에서 클래스 추가 마법사(Ctrl+Shift+x)에 들어가서 PostNcDestroy가상함수를 추가해준다.
+ 
     ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/6b7a6157-2a4c-4bf1-bb74-852a0dc7c2f6)
 
 11. 다음과 같은 실행화면을 얻을 수 있다.
 
     ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/6a4a9a38-991f-458e-810c-3ae152a28f1b)
-
 
 
 ------

@@ -32,6 +32,9 @@
 
 11. 다음과 같은 실행화면을 얻을 수 있다.
 
+    ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/6a4a9a38-991f-458e-810c-3ae152a28f1b)
+
+
 
 ------
 펜만들기

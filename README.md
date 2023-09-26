@@ -1,4 +1,24 @@
+
+
+---
 ## VisualProgramming
+---
+퀴즈 1-1 펜만들기
+---
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/f3e733bf-eece-44cb-8ebb-c2212b63f5aa)
+
+-> 펜의 굵기와 색상의 선택 메뉴
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/8b1b756c-18c0-4d31-b0c1-992e5e5509de)
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/d446b364-9344-49a4-bab9-d2d69d0ee324)
+
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/22720296-c6a3-4d8c-92e5-478b2245b1d2)
+
+
+
+
+
+
+
 --------
 모덜리스 다이어로그
 ---

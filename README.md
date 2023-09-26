@@ -24,7 +24,7 @@
 ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/a00c2d61-28b1-4dcf-87aa-829f5439117e)
 
 ---
--> 숫자키 1~9를 누르면 펜의 굵기가 1~9로 바뀜
+-> 숫자키 1부터 9를 누르면 펜의 굵기가 1부터 9로 바뀜
 ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/c466397b-5645-49f0-8cd5-b09fb850f899)
 
 ---

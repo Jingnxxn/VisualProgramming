@@ -13,8 +13,434 @@
 
 ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/22720296-c6a3-4d8c-92e5-478b2245b1d2)
 
+---
+-> 파일 읽기와 저장하기
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/6d5cff1b-8e1f-4d50-89f0-62c78decda7e)
+
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/ecda9d60-448e-4b41-b0c4-dc3fba512ef8)
+
+---
+-> context메뉴에 펜의 굵기와 색상 선택 메뉴 추가
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/a00c2d61-28b1-4dcf-87aa-829f5439117e)
+
+---
+-> 숫자키 1~9를 누르면 펜의 굵기가 1~9로 바뀜
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/c466397b-5645-49f0-8cd5-b09fb850f899)
+
+---
+- PenDoc.cpp
+```ruby
+
+// PenView.cpp: CPenView 클래스의 구현
+//
+
+#include "pch.h"
+#include "framework.h"
+// SHARED_HANDLERS는 미리 보기, 축소판 그림 및 검색 필터 처리기를 구현하는 ATL 프로젝트에서 정의할 수 있으며
+// 해당 프로젝트와 문서 코드를 공유하도록 해 줍니다.
+#ifndef SHARED_HANDLERS
+#include "Pen.h"
+#endif
+
+#include "PenDoc.h"
+#include "PenView.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
 
 
+// CPenView
+
+IMPLEMENT_DYNCREATE(CPenView, CView)
+
+BEGIN_MESSAGE_MAP(CPenView, CView)
+	// 표준 인쇄 명령입니다.
+	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
+	ON_WM_MOUSEMOVE()
+	ON_COMMAND(ID_SELECT_COLOR, &CPenView::OnSelectColor)
+	ON_COMMAND(ID_SIZE_8, &CPenView::OnSize8)
+	ON_COMMAND(ID_LINE_4, &CPenView::OnLine4)
+	ON_COMMAND(ID_LINE_1, &CPenView::OnLine1)
+	ON_COMMAND(ID_SIZE_16, &CPenView::OnSize16)
+	ON_COMMAND(ID_SIZE_32, &CPenView::OnSize33)
+	ON_WM_CONTEXTMENU()
+END_MESSAGE_MAP()
+
+// CPenView 생성/소멸
+
+CPenView::CPenView() noexcept
+{
+	// TODO: 여기에 생성 코드를 추가합니다.
+
+}
+
+CPenView::~CPenView()
+{
+}
+
+BOOL CPenView::PreCreateWindow(CREATESTRUCT& cs)
+{
+	// TODO: CREATESTRUCT cs를 수정하여 여기에서
+	//  Window 클래스 또는 스타일을 수정합니다.
+
+	return CView::PreCreateWindow(cs);
+}
+
+// CPenView 그리기
+#include "CLine.h"
+void CPenView::OnDraw(CDC* pDC)
+{
+	CPenDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	int n = pDoc->m_oa.GetSize();
+	for (int i = 0; i < n; i++) {
+		CLine* pLine = (CLine*)pDoc->m_oa[i];
+		pLine->Draw(pDC);
+	}
+	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+}
+
+
+// CPenView 인쇄
+
+BOOL CPenView::OnPreparePrinting(CPrintInfo* pInfo)
+{
+	// 기본적인 준비
+	return DoPreparePrinting(pInfo);
+}
+
+void CPenView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+{
+	// TODO: 인쇄하기 전에 추가 초기화 작업을 추가합니다.
+}
+
+void CPenView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+{
+	// TODO: 인쇄 후 정리 작업을 추가합니다.
+}
+
+
+// CPenView 진단
+
+#ifdef _DEBUG
+void CPenView::AssertValid() const
+{
+	CView::AssertValid();
+}
+
+void CPenView::Dump(CDumpContext& dc) const
+{
+	CView::Dump(dc);
+}
+
+CPenDoc* CPenView::GetDocument() const // 디버그되지 않은 버전은 인라인으로 지정됩니다.
+{
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CPenDoc)));
+	return (CPenDoc*)m_pDocument;
+}
+#endif //_DEBUG
+
+COLORREF Col;
+int Size;
+// CPenView 메시지 처리기
+#include "CLine.h"
+CPoint opnt;
+void CPenView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	if (nFlags == MK_LBUTTON) {
+		CPenDoc* pDoc = GetDocument();
+		CLine* pLine = new CLine(opnt, point, Size, Col);
+		pDoc->m_oa.Add(pLine);
+		Invalidate(FALSE);
+	}
+	
+	opnt = point;
+	CView::OnMouseMove(nFlags, point);
+	
+	
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	
+}
+
+
+void CPenView::OnSelectColor()
+{
+	CColorDialog dlg;
+	if (dlg.DoModal() == IDOK) {
+		Col = dlg.GetColor();
+	}
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CPenView::OnSize8()
+{
+	Size = 8;
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CPenView::OnLine4()
+{
+	Size = 4;
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CPenView::OnLine1()
+{
+	Size = 1;
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CPenView::OnSize16()
+{
+	Size = 16;
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CPenView::OnSize33()
+{
+	Size = 32;
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+
+BOOL CPenView::PreTranslateMessage(MSG* pMsg)
+{
+	if (pMsg->message == WM_KEYDOWN) {
+		if (pMsg->wParam == '1') { Size = 1; }
+		if (pMsg->wParam == '2') { Size = 2; }
+		if (pMsg->wParam == '3') { Size = 3; }
+		if (pMsg->wParam == '4') { Size = 4; }
+		if (pMsg->wParam == '5') { Size = 5; }
+		if (pMsg->wParam == '6') { Size = 6; }
+		if (pMsg->wParam == '7') { Size = 7; }
+		if (pMsg->wParam == '8') { Size = 8; }
+		if (pMsg->wParam == '9') { Size = 9; }
+	}
+	return CView::PreTranslateMessage(pMsg);
+}
+
+typedef int UNIT;
+void CPenView::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
+{
+	CMenu menu;
+	menu.CreatePopupMenu();
+
+	// 서브 메뉴 추가: 선 굵기 설정 (기존 메뉴 항목 사용)
+	CMenu sizeMenu;
+	sizeMenu.CreatePopupMenu();
+	
+	// ... 기존의 선 굵기 항목들을 추가하세요
+	
+	menu.AppendMenu(MF_STRING | MF_POPUP, (UNIT)sizeMenu.m_hMenu, _T("Size"));
+	sizeMenu.AppendMenu(MF_STRING, ID_LINE_1, _T("Size 1"));
+	sizeMenu.AppendMenu(MF_STRING, ID_LINE_4, _T("Size 4"));
+	sizeMenu.AppendMenu(MF_STRING, ID_SIZE_8, _T("Size 8"));
+	sizeMenu.AppendMenu(MF_STRING, ID_SIZE_16, _T("Size 16"));
+	sizeMenu.AppendMenu(MF_STRING, ID_SIZE_32, _T("Size 32"));
+	
+	// 서브 메뉴 추가: 색상 바꾸기 (기존 메뉴 항목 사용)
+	menu.AppendMenu(MF_STRING, ID_SELECT_COLOR, _T("Color"));
+
+	// 메뉴 실행 및 선택한 항목의 명령 ID를 가져옴
+	int selectedID = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
+
+	// 선택한 항목이 선 굵기인 경우, Size 변수에 저장
+	switch (selectedID)
+	{
+	case ID_LINE_1:
+		Size = 1;
+		break;
+	case ID_LINE_4:
+		Size = 4;
+		break;
+	case ID_SIZE_8:
+		Size = 8;
+		break;
+		// 다른 굵기 옵션들을 추가하세요
+	}
+
+	// 화면 좌표로 변환
+	ClientToScreen(&point);
+
+	// 메뉴 실행
+	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
+
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+}
+```
+- PenDoc.cpp
+```ruby
+
+// PenDoc.cpp: CPenDoc 클래스의 구현
+//
+
+#include "pch.h"
+#include "framework.h"
+// SHARED_HANDLERS는 미리 보기, 축소판 그림 및 검색 필터 처리기를 구현하는 ATL 프로젝트에서 정의할 수 있으며
+// 해당 프로젝트와 문서 코드를 공유하도록 해 줍니다.
+#ifndef SHARED_HANDLERS
+#include "Pen.h"
+#endif
+
+#include "PenDoc.h"
+
+#include <propkey.h>
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+// CPenDoc
+
+IMPLEMENT_DYNCREATE(CPenDoc, CDocument)
+
+BEGIN_MESSAGE_MAP(CPenDoc, CDocument)
+END_MESSAGE_MAP()
+
+
+// CPenDoc 생성/소멸
+
+CPenDoc::CPenDoc() noexcept
+{
+	// TODO: 여기에 일회성 생성 코드를 추가합니다.
+
+}
+
+CPenDoc::~CPenDoc()
+{
+}
+
+BOOL CPenDoc::OnNewDocument()
+{
+
+	if (!CDocument::OnNewDocument())
+		return FALSE;
+
+	// TODO: 여기에 재초기화 코드를 추가합니다.
+	// SDI 문서는 이 문서를 다시 사용합니다.
+	INT_PTR n = m_oa.GetCount();
+	for (INT_PTR i = 0; i < n; i++) {
+		delete m_oa[i];
+	}
+	m_oa.RemoveAll();
+	return TRUE;
+}
+
+
+
+
+// CPenDoc serialization
+
+void CPenDoc::Serialize(CArchive& ar)
+{
+	m_oa.Serialize(ar); //CObArray m_oa
+}
+
+#ifdef SHARED_HANDLERS
+
+// 축소판 그림을 지원합니다.
+void CPenDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
+{
+	// 문서의 데이터를 그리려면 이 코드를 수정하십시오.
+	dc.FillSolidRect(lprcBounds, RGB(255, 255, 255));
+
+	CString strText = _T("TODO: implement thumbnail drawing here");
+	LOGFONT lf;
+
+	CFont* pDefaultGUIFont = CFont::FromHandle((HFONT) GetStockObject(DEFAULT_GUI_FONT));
+	pDefaultGUIFont->GetLogFont(&lf);
+	lf.lfHeight = 36;
+
+	CFont fontDraw;
+	fontDraw.CreateFontIndirect(&lf);
+
+	CFont* pOldFont = dc.SelectObject(&fontDraw);
+	dc.DrawText(strText, lprcBounds, DT_CENTER | DT_WORDBREAK);
+	dc.SelectObject(pOldFont);
+}
+
+// 검색 처리기를 지원합니다.
+void CPenDoc::InitializeSearchContent()
+{
+	CString strSearchContent;
+	// 문서의 데이터에서 검색 콘텐츠를 설정합니다.
+	// 콘텐츠 부분은 ";"로 구분되어야 합니다.
+
+	// 예: strSearchContent = _T("point;rectangle;circle;ole object;");
+	SetSearchContent(strSearchContent);
+}
+
+void CPenDoc::SetSearchContent(const CString& value)
+{
+	if (value.IsEmpty())
+	{
+		RemoveChunk(PKEY_Search_Contents.fmtid, PKEY_Search_Contents.pid);
+	}
+	else
+	{
+		CMFCFilterChunkValueImpl *pChunk = nullptr;
+		ATLTRY(pChunk = new CMFCFilterChunkValueImpl);
+		if (pChunk != nullptr)
+		{
+			pChunk->SetTextValue(PKEY_Search_Contents, value, CHUNK_TEXT);
+			SetChunkValue(pChunk);
+		}
+	}
+}
+
+#endif // SHARED_HANDLERS
+
+// CPenDoc 진단
+
+#ifdef _DEBUG
+void CPenDoc::AssertValid() const
+{
+	CDocument::AssertValid();
+}
+
+void CPenDoc::Dump(CDumpContext& dc) const
+{
+	CDocument::Dump(dc);
+}
+#endif //_DEBUG
+
+
+// CPenDoc 명령
+```
+- CLine.cpp
+```ruby
+#include "pch.h"
+#include "CLine.h"
+
+IMPLEMENT_SERIAL(CLine, CObject, 1)
+
+
+void CLine::Serialize(CArchive& ar)
+{
+	if (ar.IsStoring())
+	{	// storing code
+		ar << m_From << m_To <<m_Size << m_Col;
+	}
+	else
+	{	// loading code
+		ar >> m_From >> m_To >> m_Size >> m_Col;
+	}
+}
+```
+나머지 파일들은 Pen.zip에 넣어두었습니다. 
+  
 
 
 

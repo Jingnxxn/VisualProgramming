@@ -3,6 +3,88 @@
 ---
 ## VisualProgramming
 ---
+MFC의 SDI기반 멀티태스킹 예제 구현 과제
+---
+- CSDIAppView.h
+```ruby
+// MySDIAppView.h
+
+protected:
+    CDocument* m_pDocuments[3]; // 최대 3개의 문서
+    int m_nActiveDoc;
+
+public:
+    void CreateNewDocument();
+    void SwitchDocument(int nIndex);
+
+protected:
+    afx_msg void OnDocument1();
+    afx_msg void OnDocument2();
+    afx_msg void OnDocument3();
+```
+- CSDIAppView.cpp
+```ruby
+// MySDIAppView.cpp
+
+void CMySDIAppView::CreateNewDocument()
+{
+    int nDocCount = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        if (m_pDocuments[i] != NULL)
+            nDocCount++;
+    }
+
+    if (nDocCount >= 3)
+    {
+        AfxMessageBox(_T("최대 3개의 문서만 지원합니다."));
+        return;
+    }
+
+    CDocument* pDoc = ((CFrameWnd*)AfxGetMainWnd())->CreateNewDocument();
+    if (pDoc != NULL)
+    {
+        m_pDocuments[nDocCount] = pDoc;
+        SwitchDocument(nDocCount);
+    }
+}
+
+void CMySDIAppView::SwitchDocument(int nIndex)
+{
+    if (nIndex >= 0 && nIndex < 3 && m_pDocuments[nIndex] != NULL)
+    {
+        CView* pActiveView = GetActiveView();
+        CDocument* pActiveDoc = pActiveView->GetDocument();
+
+        if (pActiveDoc != m_pDocuments[nIndex])
+        {
+            CView* pNewView = m_pDocuments[nIndex]->GetFirstView();
+            CFrameWnd* pMainFrame = (CFrameWnd*)AfxGetMainWnd();
+            pMainFrame->SetActiveView(pNewView);
+
+            m_nActiveDoc = nIndex;
+        }
+    }
+}
+
+void CMySDIAppView::OnDocument1()
+{
+    SwitchDocument(0);
+}
+
+void CMySDIAppView::OnDocument2()
+{
+    SwitchDocument(1);
+}
+
+void CMySDIAppView::OnDocument3()
+{
+    SwitchDocument(2);
+}
+```
+
+-> 문서를 열고 "문서 1", "문서 2", "문서 3" 메뉴를 통해 문서 간 전환을 할 수 있다. 최대 3개의 문서를 멀티태스킹으로 지원하며 사용자가 문서를 전환할 수 있다.
+---
 MFC-FormView 과제
 ---
 <채점기준>

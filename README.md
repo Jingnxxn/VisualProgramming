@@ -82,6 +82,30 @@ void CMySDIAppView::OnDocument3()
     SwitchDocument(2);
 }
 ```
+<설명>
+1) 멤버 변수 및 함수 선언 : 
+m_pDocuments[3]: 최대 3 개의 문서를 저장하기 위한 CDocument 포인터 배열입니다.
+m_nActiveDoc: 현재 활성 문서의 인덱스를 나타내는 변수입니다.
+CreateNewDocument(): 새 문서를 생성하고 배열에 저장하는 함수입니다.
+SwitchDocument(int nIndex): 지정된 인덱스의 문서로 전환하는 함수입니다.
+
+2) CreateNewDocument() 함수:
+nDocCount 변수는 현재 열린 문서의 수를 추적합니다.
+최대 3 개까지 문서를 지원하므로 nDocCount가 3 이상이면 추가 문서를 열 수 없도록 메시지를 표시합니다.
+CreateNewDocument() 함수는 현재 메인 프레임에서 새 문서를 생성하고 해당 문서를 배열에 저장합니다.
+이것은 새 문서를 열 때 사용됩니다.
+SwitchDocument(nIndex) 함수를 호출하여 새 문서를 활성 문서로 전환합니다.
+
+3) SwitchDocument(int nIndex) 함수:
+nIndex는 전환하려는 문서의 인덱스를 나타냅니다.
+pActiveView를 사용하여 현재 활성 뷰를 가져옵니다.
+pActiveDoc를 사용하여 현재 활성 문서를 가져옵니다.
+현재 활성 문서와 전환하려는 문서가 다른 경우, pNewView를 사용하여 전환하려는 문서의 첫 번째 뷰를 가져옵니다.
+pMainFrame을 사용하여 메인 프레임을 가져와서 SetActiveView()를 사용하여 새 뷰로 전환합니다.
+m_nActiveDoc를 업데이트하여 새로운 활성 문서의 인덱스를 추적합니다.
+
+4) OnDocument1(), OnDocument2(), OnDocument3() 함수:
+이 함수들은 각각 "문서 1", "문서 2", "문서 3" 메뉴 항목에 연결된 함수로, 해당 인덱스의 문서로 전환하기 위해 SwitchDocument() 함수를 호출합니다.
 
 -> 문서를 열고 "문서 1", "문서 2", "문서 3" 메뉴를 통해 문서 간 전환을 할 수 있다. 최대 3개의 문서를 멀티태스킹으로 지원하며 사용자가 문서를 전환할 수 있다.
  

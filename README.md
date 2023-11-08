@@ -3,6 +3,75 @@
 ---
 ## VisualProgramming
 ---
+WinUI3 에서 Win2D를 활용 과제
+---
+- MainWindow.xaml.cpp
+```ruby
+// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
+
+#include "pch.h"
+#include "MainWindow.xaml.h"
+#if __has_include("MainWindow.g.cpp")
+#include "MainWindow.g.cpp"
+#endif
+
+using namespace winrt;
+using namespace Microsoft::UI::Xaml;
+
+// To learn more about WinUI, the WinUI project structure,
+// and more about our project templates, see: http://aka.ms/winui-project-info.
+
+namespace winrt::App4::implementation
+{
+    MainWindow::MainWindow()
+    {
+        InitializeComponent();
+        px = 200;
+        py = 200;
+    }
+
+    int32_t MainWindow::MyProperty()
+    {
+        throw hresult_not_implemented();
+    }
+
+    void MainWindow::MyProperty(int32_t /* value */)
+    {
+        throw hresult_not_implemented();
+    }
+}
+
+using namespace winrt::Microsoft::Graphics::Canvas::UI::Xaml;
+struct winrt::Windows::UI::Color col = winrt::Microsoft::UI::Colors::HotPink();
+void winrt::App4::implementation::MainWindow::CanvasControl_PointerMoved(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::PointerRoutedEventArgs const& e)
+{
+    CanvasControl canvas = sender.as<CanvasControl>();
+    px = e.GetCurrentPoint(canvas).Position().X;
+    py = e.GetCurrentPoint(canvas).Position().Y;
+    canvas.Invalidate();
+}
+
+
+void winrt::App4::implementation::MainWindow::CanvasControl_Draw(winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasControl const& sender, winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasDrawEventArgs const& args)
+{
+    //args.DrawingSession().DrawEllipse(px, py, 80, 60, col, 8);
+    //args.DrawingSession().DrawText(L"Hello!", px - 25, py - 15, winrt::Microsoft::UI::Colors::Yellow());
+    args.DrawingSession().DrawCircle(150, 150, 100, col, 5);
+    args.DrawingSession().DrawLine(300, 300, 500, 200, col, 5);
+    args.DrawingSession().DrawRectangle(100, 400, 100, 100, col, 5);
+    args.DrawingSession().FillRoundedRectangle(400, 500, 100, 200, 40, 40, col);
+    args.DrawingSession().FillEllipse(700, 150, 200, 50, col);
+    args.DrawingSession().FillCircle(700, 150, 100, col);
+    args.DrawingSession().DrawText(L"안동대학교 컴퓨터공학과 최고", 600, 400, winrt::Microsoft::UI::Colors::Red());
+}
+```
+실행화면)
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/b91cdb68-3272-4be1-a41e-62f92e038bc1)
+
+
+
+---
 MFC의 SDI기반 멀티태스킹 예제 구현 과제
 ---
 - CSDIAppView.h

@@ -3,6 +3,97 @@
 ---
 ## VisualProgramming
 ---
+LAB 퀴즈: WinUI 3와 Win 2D를 활용한 펜 만들기
+---
+-MainWindow.xaml.cpp
+```ruby
+// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
+
+#include "pch.h"
+#include "MainWindow.xaml.h"
+#if __has_include("MainWindow.g.cpp")
+#include "MainWindow.g.cpp"
+#endif
+
+using namespace winrt;
+using namespace Microsoft::UI::Xaml;
+
+// To learn more about WinUI, the WinUI project structure,
+// and more about our project templates, see: http://aka.ms/winui-project-info.
+
+namespace winrt::MyPen::implementation
+{
+    MainWindow::MainWindow()
+    {
+        InitializeComponent();
+
+        flag = false;
+        px = 100;
+        py = 100;
+    }
+
+    int32_t MainWindow::MyProperty()
+    {
+        throw hresult_not_implemented();
+    }
+
+    void MainWindow::MyProperty(int32_t /* value */)
+    {
+        throw hresult_not_implemented();
+    }
+
+   
+    
+}
+
+
+void winrt::MyPen::implementation::MainWindow::CanvasControl_Draw(winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasControl const& sender, winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasDrawEventArgs const& args)
+{
+    CanvasControl canvas = sender.as<CanvasControl>();
+    int n = vx.size();
+    for (int i = 1; i < n; i++) {
+        if (vx[i] == 0 && vy[i] == 0) {
+            i++; continue;
+        }
+        args.DrawingSession().DrawLine(vx[i - 1], vy[i - 1], vx[i], vy[i], Colors::Green(), 4);
+        args.DrawingSession().FillEllipse(vx[i ], vy[i ], 16, 16, Colors::Green());
+    }
+
+}
+
+
+void winrt::MyPen::implementation::MainWindow::CanvasControl_PointerPressed(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::PointerRoutedEventArgs const& e)
+{
+    flag = true;
+}
+
+
+void winrt::MyPen::implementation::MainWindow::CanvasControl_PointerReleased(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::PointerRoutedEventArgs const& e)
+{
+    flag = false;
+    px = py = 0.0;
+    vx.push_back(px);
+    vy.push_back(py);
+}
+
+
+void winrt::MyPen::implementation::MainWindow::CanvasControl_PointerMoved(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::PointerRoutedEventArgs const& e)
+{
+    CanvasControl canvas = sender.as<CanvasControl>();
+    px = e.GetCurrentPoint(canvas).Position().X;
+    py = e.GetCurrentPoint(canvas).Position().Y;
+    if (flag) {
+        vx.push_back(px);
+        vy.push_back(py);
+        canvas.Invalidate();
+    }
+}
+```
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/153e7a8d-0761-45b0-9386-9f8fb7f5862f)
+
+
+---
 WinUI3 에서 Win2D를 활용 과제
 ---
 - MainWindow.xaml.cpp

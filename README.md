@@ -90,6 +90,7 @@ void winrt::MyPen::implementation::MainWindow::CanvasControl_PointerMoved(winrt:
     }
 }
 ```
+실행 화면 : 
 ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/153e7a8d-0761-45b0-9386-9f8fb7f5862f)
 
 

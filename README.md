@@ -233,7 +233,17 @@ namespace winrt::App12::factory_implementation
     </Grid>
 </Window>
 ```
-  
+실행화면 : ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/97a100e2-7cdf-49df-8a7d-c148d77706f4)
+
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/59e67b39-511c-4047-b286-9bb04ac18e39)
+
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/0460f719-b0fd-4436-9249-1e0897015f55)
+
+-> 버튼을 누르면 슬라이더와 색상표가 감춰지는 것을 확인할 수 있다. 슬라이드바로 펜의 굵기를 조절할 수 있고, 펜의 색상 또한 색상표로 선택할 수 있음을 확인할 수 있다.
+
+
+
+
 ---
 LAB 퀴즈: WinUI 3와 Win 2D를 활용한 펜 만들기
 ---

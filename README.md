@@ -334,7 +334,8 @@ namespace winrt::App12::factory_implementation
 
 ![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/1e0473d2-f39c-4765-aba7-51fc3697a346)
 
--> 1. 교과서를 따라 해서 성공하였고,
+->
+1. 교과서를 따라 해서 성공하였고,
 2. 교과서에 다른 특징인 Clear 를 추가해서 Clear를 누르면 그림판의 그림이 모두 지워진다.
 3. 저장하고 읽는 것을 교과서 보다 향상 시켰는데, Write를 누르면 "파일이 저장되었습니다"라는 메시지 박스가 뜨고, 불러올때는 Read를 눌러주면 "파일이 로드되었습니다"라고 뜬다.
 ---

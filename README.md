@@ -149,7 +149,8 @@ namespace winrt::BgLabelControlApp::factory_implementation
 7. MainWindow.Xaml에 다음 헤더파일 ( #include "BgLabelControl.h" )을 넣는다.
 
 -> 실행화면 : 
-![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/cc2b6668-80cd-4495-9ab4-756c5b6d2fc4)
+![image](https://github.com/Jingnxxn/VisualProgramming/assets/96435960/711ed800-252f-435d-b60b-7a35c2c344b4)
+
 
 
 ---

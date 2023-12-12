@@ -1,4 +1,3 @@
--[12월12일 기말 실기 1번 문제]
 
 ---
 ## VisualProgramming

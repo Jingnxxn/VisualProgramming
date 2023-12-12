@@ -1,4 +1,3 @@
-[기말실기1번](https://github.com/Jingnxxn/VisualProgramming/blob/main/Readme.md)
 
 ---
 ## VisualProgramming
